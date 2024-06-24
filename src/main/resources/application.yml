@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: restapi
+  logging:
+    level:
+      root: INFO
+      com.tr4.db.restapi: INFO
