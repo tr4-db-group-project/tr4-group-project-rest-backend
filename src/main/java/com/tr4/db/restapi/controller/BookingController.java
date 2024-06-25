@@ -20,11 +20,6 @@ public class BookingController {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @GetMapping
-    public String get() {
-        return "Hello World";
-    }
-
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public String Publish(@RequestBody Booking booking) throws JsonProcessingException {
