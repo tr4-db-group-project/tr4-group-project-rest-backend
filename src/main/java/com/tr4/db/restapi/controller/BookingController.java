@@ -1,57 +1,35 @@
 package com.tr4.db.restapi.controller;
 
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.cloud.spring.pubsub.core.PubSubTemplate;
-import com.tr4.db.restapi.model.Booking;
+import com.tr4.db.restapi.RestapiApplication;
+import com.tr4.db.restapi.domain.Booking;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/booking")
 public class BookingController {
-
-    private final PubSubTemplate pubSubTemplate;
+    @Autowired
+    private RestapiApplication.PubsubOutboundGateway messagingGateway;
 
     @Autowired
-    public BookingController(PubSubTemplate pubSubTemplate) {
-        this.pubSubTemplate = pubSubTemplate;
-    }
+    private ObjectMapper objectMapper;
 
-    @GetMapping("")
-    public ResponseEntity<?> getBooking() {
-        return ResponseEntity.ok("Received request");
+    @GetMapping
+    public String get() {
+        return "Hello World";
     }
 
     @PostMapping("")
-    public ResponseEntity<Booking> postRequest(@RequestBody Booking booking) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public String Publish(@RequestBody Booking booking) throws JsonProcessingException {
         log.info("Booking received: {}", booking);
-
-        String jsonMessage = convertBookingToJson(booking);
-
-        // Publish the request body to the Pub/Sub topic
-        pubSubTemplate.publish("booking-test", jsonMessage)
-                .whenComplete((result, throwable) -> {
-                    if (throwable == null) {
-                        log.info("Message successfully submitted to Pub/Sub");
-                    } else {
-                        log.error("Failed to submit message to Pub/Sub", throwable);
-                    }
-                });
-
-        return ResponseEntity.ok(booking);
-    }
-
-    private String convertBookingToJson(Booking booking) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.writeValueAsString(booking);
-        } catch (JsonProcessingException e) {
-            log.error("Error converting booking to JSON", e);
-            throw new RuntimeException(e);
-        }
+        messagingGateway.sendToPubsub(objectMapper.writeValueAsString(booking));
+        return "Success";
     }
 }
