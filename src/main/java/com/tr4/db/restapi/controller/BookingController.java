@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tr4.db.restapi.RestapiApplication;
 import com.tr4.db.restapi.domain.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,7 @@ public class BookingController {
     }
 
     @PostMapping("/publish")
+    @ResponseStatus(HttpStatus.CREATED)
     public String Publish(@RequestBody Booking booking) throws JsonProcessingException {
         messagingGateway.sendToPubsub(objectMapper.writeValueAsString(booking));
         return "Success";
