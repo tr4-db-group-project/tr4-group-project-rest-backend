@@ -5,3 +5,8 @@ spring:
     level:
       root: INFO
       com.tr4.db.restapi: INFO
+  cloud:
+    gcp:
+      project_id: tr4-2024-06-deutschebank
+      credentials:
+        location:
