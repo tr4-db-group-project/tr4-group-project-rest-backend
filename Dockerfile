@@ -10,6 +10,6 @@ RUN if [ "$SKIP_TESTS" = "true" ]; then mvn clean package -DskipTests; else mvn 
 
 FROM amazoncorretto:17-alpine-jdk
 WORKDIR /app
-COPY target/restapi-0.0.1.jar app.jar
+COPY --from=build app/target/restapi-0.0.1.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
