@@ -4,7 +4,7 @@ package com.tr4.db.restapi.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tr4.db.restapi.RestapiApplication;
-import com.tr4.db.restapi.domain.Booking;
+import com.tr4.db.restapi.model.Booking;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
