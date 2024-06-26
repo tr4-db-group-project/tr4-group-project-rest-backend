@@ -22,6 +22,7 @@ public class RestapiApplication {
 
 		SpringApplication.run(RestapiApplication.class, args);
 	}
+
 	@Value("${booking.event.topic}")
 	private String topic;
 	@Bean
