@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  restapi:
+    image: 'restapi-backend:latest'
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - SKIP_TESTS=true
+    container_name: restapi-backend
+    ports:
+      - "8080:8080"

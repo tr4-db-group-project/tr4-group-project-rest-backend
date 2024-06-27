@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: restapi
+  logging:
+    level:
+      root: INFO
+      com.tr4.db.restapi: INFO
+  cloud:
+    gcp:
+      project-id: tr4-2024-06-deutschebank
+booking:
+  event:
+    topic: "EventGroupProject"
